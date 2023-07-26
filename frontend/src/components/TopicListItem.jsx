@@ -1,16 +1,43 @@
 import React from 'react';
+import axios from 'axios';
 
-import '../styles/TopicListItem'
+import '../styles/TopicListItem.scss';
 
-const TopicListItem = () => {
-  <div className="topic-list__item">
-    {/* Insert React */}
-  </div>
-}
+const TopicListItem = (props) => {
+  const { topic } = props.state;
+  const clickHandler = (topic)=> {
+    axios
+      .get('http://localhost:8001/api/topics/photos/' + topic.id)
+      .then((response) => {
+        props.setPhotos(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching data", error);
+      });
+  };
 
-TopicListItem.defaultProps =   {
-  "id": "1",
-  "slug": "topic-1",
-  "label": "Nature"
-}
-export default TopicListItem
+  return (
+    <div className="topic-list__item">
+      {topic.includes(props.thisTopic) &&
+      <span className='hover'
+        onClick={()=>clickHandler(props.thisTopic)}
+        onMouseOver={() => props.onLoadTopic([],props.thisTopic)}
+        onMouseOut={() => props.onLoadTopic([])} >
+        {props.thisTopic.title}
+      </span>}
+      {!topic.includes(props.thisTopic) && <span onClick={()=>clickHandler(props.thisTopic)} onMouseOver={() => props.onLoadTopic([],props.thisTopic)} onMouseOut={() => props.onLoadTopic([])}>{props.thisTopic.title}</span>}
+    </div>
+  );
+};
+
+TopicListItem.defaultProps = {
+  topic:
+    {
+      "id": "1",
+      "slug": "topic-1",
+      "title": "Nature"
+    },
+};
+
+export default TopicListItem;
+
