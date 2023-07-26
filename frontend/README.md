@@ -78,10 +78,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### Screen Grabs
 
--Gallery View
+- Gallery View
 
 !["Gallery View"](docs/gallery-view.png)
 
--Modal
+- Modal (Focus Image Enlarged)
 
 !["Modal"](docs/modal.png)
