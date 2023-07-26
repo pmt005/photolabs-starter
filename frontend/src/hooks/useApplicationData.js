@@ -1,50 +1,14 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 
+import reducer from '../reducer/reducer';
+
+import axios from 'axios';
 
 const initialState = {
   modalVisible: [],
   likes: [],
-  topic: [],
+  topics: [],
   photos: []
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-  case 'SET_PHOTO_SELECTED':
-    return {
-      ...state,
-      modalVisible: [...state.modalVisible, action.payload],
-    };
-  case 'UPDATE_FAV_PHOTO_IDS':
-    if (!state.likes.includes(action.payload)) {
-      return {
-        ...state,
-        likes: [...state.likes, action.payload],
-      };
-    } else {
-      return {
-        ...state,
-        likes: state.likes.filter(x => x !== action.payload),
-      };
-    }
-  case 'LOAD_TOPIC':
-    return {
-      ...state,
-      topic: [action.payload],
-    };
-  case 'CLOSE_PHOTO_DETAILS_MODAL':
-    return {
-      ...state,
-      modalVisible: [],
-    };
-  case 'GET_PHOTO_BY_TOPICS':
-    return {
-      ...state,
-      photos: [action.payload],
-    };
-  default:
-    return state;
-  }
 };
 
 export default function useApplicationData() {
@@ -54,7 +18,7 @@ export default function useApplicationData() {
     dispatch({ type: 'SET_PHOTO_SELECTED', payload: photo });
   };
 
-  const updateToFavPhotoIds = (photoId) => {
+  const updateFavPhotoIds = (photoId) => {
     dispatch({ type: 'UPDATE_FAV_PHOTO_IDS', payload: photoId });
   };
 
@@ -66,11 +30,39 @@ export default function useApplicationData() {
     dispatch({ type: 'CLOSE_PHOTO_DETAILS_MODAL' });
   };
 
+  // retrieve photos and topics
+  useEffect(() => {
+    const topicsURL = '/api/topics';
+    const photosURL = '/api/photos';
+    const topicsPromise = axios.get(topicsURL);
+    const photosPromise = axios.get(photosURL);
+
+    Promise.all([topicsPromise, photosPromise])
+      .then((response) => {
+        dispatch({ type: 'LOAD_PAGE', payload: response });
+      })
+      .catch((error) => {
+        console.error('Error fetching photos', error);
+      });
+  }, []);
+
+  const getPhotoByTopic = (topic) => {
+    axios
+      .get('/api/topics/photos/' + topic.id)
+      .then((response) => {
+        dispatch({ type: 'GET_PHOTO_BY_TOPICS', payload: response.data });
+      })
+      .catch(error => {
+        console.error("Error fetching data", error);
+      });
+  };
+
   return {
     state,
-    updateToFavPhotoIds,
+    updateFavPhotoIds,
     setPhotoSelected,
     onLoadTopic,
     onClosePhotoDetailsModal,
+    getPhotoByTopic,
   };
 }

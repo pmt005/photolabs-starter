@@ -12,7 +12,7 @@ const PhotoFavButton = (props) => {
           key={`Photo ${props.photo.id}`}
           fill={!likes.includes(props.photo.id) ? "" : "#C80000"}
           onClick={()=>{
-            props.updateToFavPhotoIds(props.photo.id);
+            props.updateFavPhotoIds(props.photo.id);
           }}
         />
       </div>

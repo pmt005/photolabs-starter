@@ -4,19 +4,21 @@ import PhotoListItem from './PhotoListItem';
 import '../styles/PhotoList.scss';
 
 const PhotoList = (props) => {
+
+  const { photos } = props.state;
+
   const mappedPhotos = () => {
-    return props.photos.map((photo) => (
+    return photos.map((photo) => (
       <PhotoListItem
-        key={ photo.id }
-        photo={ photo }
-        state={ props.state }
-        updateToFavPhotoIds={ props.updateToFavPhotoIds }
-        openModalWindow={ props.openModalWindow }
-        closeModalWindow={ props.closeModalWindow }
-        photos={ props.photos }/>
+        key={photo.id}
+        photo={photo}
+        state={props.state}
+        updateFavPhotoIds={props.updateFavPhotoIds}
+        openModalWindow={props.openModalWindow}
+        closeModalWindow={props.closeModalWindow}
+      />
     ));
   };
-
 
   return <ul className="photo-list">{mappedPhotos()}</ul>;
 };

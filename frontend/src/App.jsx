@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PhotoDetailsModal from './routes/PhotoDetailsModal';
 import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
@@ -8,59 +8,32 @@ import './App.scss';
 const App = () => {
   const {
     state,
-    updateToFavPhotoIds,
+    updateFavPhotoIds: updateFavPhotoIds,
     setPhotoSelected,
     onLoadTopic,
-    onClosePhotoDetailsModal
+    onClosePhotoDetailsModal,
+    getPhotoByTopic
   } = useApplicationData();
 
-  const { modalVisible} = state;
-
-  // retrieve photos data
-  const [photos, setPhotos] = useState([]);
-  useEffect(() => {
-    axios
-      .get('http://localhost:8001/api/photos')
-      .then((response)=>{
-        setPhotos(response.data);
-      })
-      .catch(error=>{
-        console.error("Error fetching data",error);
-      });
-  },[]);
-
-  // retrieve topics data
-  const [topics, setTopics] = useState([]);
-  useEffect(() => {
-    axios
-      .get('http://localhost:8001/api/topics')
-      .then((response)=>{
-        setTopics(response.data);
-      })
-      .catch(error=>{
-        console.error("Error fetching data",error);
-      });
-  },[]);
+  const { modalVisible } = state;
 
   return (
     <div className={modalVisible.length ? 'App dark' : 'App'} >
       <PhotoDetailsModal
-        state={ state }
-        openModalWindow={ setPhotoSelected }
-        closeModalWindow={ onClosePhotoDetailsModal }
-        updateToFavPhotoIds={ updateToFavPhotoIds }
-        photos={ photos }
-        setPhotos={ setPhotos }/>
+        state={state}
+        openModalWindow={setPhotoSelected}
+        closeModalWindow={onClosePhotoDetailsModal}
+        updateFavPhotoIds={updateFavPhotoIds}
+      />
 
       <HomeRoute
-        state = { state }
-        onLoadTopic={ onLoadTopic }
-        openModalWindow={ setPhotoSelected }
-        closeModalWindow={ onClosePhotoDetailsModal }
-        updateToFavPhotoIds={ updateToFavPhotoIds }
-        photos={ photos }
-        setPhotos={ setPhotos }
-        topics={ topics }/>
+        state={state}
+        onLoadTopic={onLoadTopic}
+        openModalWindow={setPhotoSelected}
+        closeModalWindow={onClosePhotoDetailsModal}
+        updateFavPhotoIds={updateFavPhotoIds}
+        getPhotoByTopic={getPhotoByTopic}
+      />
     </div>
   );
 };

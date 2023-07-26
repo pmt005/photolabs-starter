@@ -12,13 +12,13 @@ export const PhotoDetailsModal = (props) => {
         <span key={`SimilarPhoto ${photo.id}`} className='photo-list__item'>
           <span
             onClick={()=>{
-              props.updateToFavPhotoIds(photo.id);
+              props.updateFavPhotoIds(photo.id);
             }}>
             <PhotoFavButton
               key={`Photo ${photo.id}`}
               photo={ photo }
               state = {props.state}
-              updateToFavPhotoIds={ props.updateToFavPhotoIds }
+              updateFavPhotoIds={ props.updateFavPhotoIds }
               openModalWindow={ props.openModalWindow }
               closeModalWindow={ props.closeModalWindow }/>
             {/* open modal */}
@@ -65,13 +65,13 @@ export const PhotoDetailsModal = (props) => {
         <span
           className='photo-details-modal__fav'
           onClick={()=>{
-            props.updateToFavPhotoIds(modalVisible.id);
+            props.updateFavPhotoIds(modalVisible.id);
           }}>
           <PhotoFavButton
             key={`Photo ${modalVisible.id}`}
             photo={modalVisible}
             state={ props.state }
-            updateToFavPhotoIds={ props.updateToFavPhotoIds }
+            updateFavPhotoIds={ props.updateFavPhotoIds }
             openModalWindow={ props.openModalWindow }
             closeModalWindow={ props.closeModalWindow }/>
 
