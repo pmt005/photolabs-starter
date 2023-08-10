@@ -35,4 +35,3 @@ TopicListItem.defaultProps = {
 };
 
 export default TopicListItem;
-

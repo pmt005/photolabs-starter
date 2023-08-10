@@ -1,13 +1,12 @@
 .photo-details-modal {
   background-color: white;
-  box-shadow: 0 0 0 50vmax rgba(0,0,0,.5);
+  box-shadow: 0 0 0 50vmax rgba(0, 0, 0, .5);
   position: absolute;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -40%);
-  height: 80%;
   max-height: 90%;
-  width: 55%;
+  width: 43%;
   overflow-y: scroll;
   border-radius: 12px;
   z-index: 2;

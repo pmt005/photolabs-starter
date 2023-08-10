@@ -6,6 +6,7 @@ import axios from 'axios';
 import './App.scss';
 
 const App = () => {
+  // Destructuring values from the custom hook useApplicationData
   const {
     state,
     updateFavPhotoIds: updateFavPhotoIds,
@@ -18,7 +19,9 @@ const App = () => {
   const { modalVisible } = state;
 
   return (
-    <div className={modalVisible.length ? 'App dark' : 'App'} >
+    // Conditionally applying 'dark' class to the App div based on modal visibility
+    <div className={modalVisible.length ? 'App dark' : 'App'}>
+      {/* Rendering PhotoDetailsModal component */}
       <PhotoDetailsModal
         state={state}
         openModalWindow={setPhotoSelected}
@@ -26,6 +29,7 @@ const App = () => {
         updateFavPhotoIds={updateFavPhotoIds}
       />
 
+      {/* Rendering HomeRoute component */}
       <HomeRoute
         state={state}
         onLoadTopic={onLoadTopic}
@@ -37,4 +41,7 @@ const App = () => {
     </div>
   );
 };
+
+// Exporting the App component as the default export
 export default App;
+

@@ -57,7 +57,11 @@ module.exports = db => {
       JOIN user_account ON user_account.id = photo.user_id;
     `).then(({ rows }) => {
       response.json(rows[0].photo_data);
-    });
+    })
+      .catch(error => {
+        console.error("Error fetching photos:", error);
+        response.status(500).json({ error: "An error occurred while fetching photos" });
+      });
   });
 
   return router;

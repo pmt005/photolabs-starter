@@ -8,11 +8,16 @@ module.exports = db => {
       topic.title,
       topic.slug
       FROM topic
-    `).then(({ rows: topics }) => {
-      response.json(topics);
-    });
+    `)
+      .then(({ rows: topics }) => {
+        response.json(topics);
+      })
+      .catch(error => {
+        console.error("Error fetching topics:", error);
+        response.status(500).json({ error: "An error occurred while fetching topics" });
+      });
   });
-  
+
   router.get("/topics/photos/:id", (request, response) => {
     const protocol = request.protocol;
     const host = request.hostname;
@@ -69,9 +74,14 @@ module.exports = db => {
       JOIN photo ON photo.topic_id = topic.id
       JOIN user_account ON user_account.id = photo.user_id
       WHERE topic.id = ${request.params.id}
-    `).then(({ rows }) => {
-      response.json(rows[0].topic_photo_data);
-    });
+    `)
+      .then(({ rows }) => {
+        response.json(rows[0].topic_photo_data);
+      })
+      .catch(error => {
+        console.error("Error fetching topic photos:", error);
+        response.status(500).json({ error: "An error occurred while fetching topic photos" });
+      });
   });
 
   return router;
